@@ -2,7 +2,7 @@ import { Hero } from '@/components/hero';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { db } from '@/db';
 import { profiles, testimonials, news } from '@/db/schema';
-import { desc } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, BookOpen, Users, MessageSquare, Newspaper } from 'lucide-react';
@@ -11,8 +11,8 @@ export default async function HomePage() {
   // Fetch data for homepage
   const [latestProfiles, latestTestimonials, latestNews] = await Promise.all([
     db.select().from(profiles).orderBy(profiles.order).limit(4),
-    db.select().from(testimonials).where(testimonials.isPublished).orderBy(testimonials.order).limit(3),
-    db.select().from(news).where(news.isPublished).orderBy(desc(news.publishedAt)).limit(3),
+    db.select().from(testimonials).where(eq(testimonials.isPublished, true)).orderBy(testimonials.order).limit(3),
+    db.select().from(news).where(eq(news.isPublished, true)).orderBy(desc(news.publishedAt)).limit(3),
   ]);
 
   return (

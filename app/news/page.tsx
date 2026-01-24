@@ -1,6 +1,6 @@
 import { db } from '@/db';
 import { news } from '@/db/schema';
-import { desc } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -15,7 +15,7 @@ export default async function NewsPage() {
   const allNews = await db
     .select()
     .from(news)
-    .where(news.isPublished)
+    .where(eq(news.isPublished, true))
     .orderBy(desc(news.publishedAt));
 
   return (

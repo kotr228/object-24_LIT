@@ -1,5 +1,6 @@
 import { db } from '@/db';
 import { testimonials } from '@/db/schema';
+import { eq } from 'drizzle-orm';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageSquare, GraduationCap } from 'lucide-react';
 
@@ -12,7 +13,7 @@ export default async function TestimonialsPage() {
   const allTestimonials = await db
     .select()
     .from(testimonials)
-    .where(testimonials.isPublished)
+    .where(eq(testimonials.isPublished, true))
     .orderBy(testimonials.order);
 
   return (
