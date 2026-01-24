@@ -34,15 +34,16 @@ export default async function TeachersPage() {
           const cardColor = teacher.cardColor || '#3b82f6';
 
           return (
-            <Link href={`/teachers/${teacher.id}`} key={teacher.id}>
-              <Card
-                className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-t-4"
-                style={{ borderTopColor: cardColor }}
-              >
-                <CardHeader>
+            <Card
+              key={teacher.id}
+              className="group hover:shadow-lg transition-all duration-300"
+              style={{ borderTop: `4px solid ${cardColor}` }}
+            >
+              <CardHeader>
+                <Link href={`/teachers/${teacher.id}`} className="block">
                   <div className="flex items-start gap-4 mb-4">
                     {teacher.photo ? (
-                      <div className="relative w-20 h-20 rounded-full overflow-hidden ring-4" style={{ ringColor: cardColor }}>
+                      <div className="relative w-20 h-20 rounded-full overflow-hidden" style={{ boxShadow: `0 0 0 4px ${cardColor}20` }}>
                         <Image
                           src={teacher.photo}
                           alt={`${teacher.firstName} ${teacher.lastName}`}
@@ -67,23 +68,28 @@ export default async function TeachersPage() {
                       )}
                     </div>
                   </div>
-                  <div
-                    className="rounded-lg px-3 py-2 mb-2"
-                    style={{ backgroundColor: `${cardColor}15` }}
-                  >
-                    <p className="text-sm font-semibold" style={{ color: cardColor }}>{teacher.position}</p>
-                  </div>
-                  <CardDescription className="text-sm">{teacher.specialization}</CardDescription>
-                </CardHeader>
+                </Link>
+                <div
+                  className="rounded-lg px-3 py-2 mb-2"
+                  style={{ backgroundColor: `${cardColor}15` }}
+                >
+                  <p className="text-sm font-semibold" style={{ color: cardColor }}>{teacher.position}</p>
+                </div>
+                <CardDescription className="text-sm">{teacher.specialization}</CardDescription>
+              </CardHeader>
               <CardContent>
                 {teacher.bio && (
-                  <p className="text-sm text-muted-foreground mb-4">{teacher.bio}</p>
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{teacher.bio}</p>
                 )}
                 <div className="space-y-2 text-sm">
                   {teacher.email && (
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <Mail className="h-4 w-4" />
-                      <a href={`mailto:${teacher.email}`} className="hover:text-primary">
+                      <a
+                        href={`mailto:${teacher.email}`}
+                        className="hover:text-primary"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         {teacher.email}
                       </a>
                     </div>
@@ -91,7 +97,11 @@ export default async function TeachersPage() {
                   {teacher.phone && (
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <Phone className="h-4 w-4" />
-                      <a href={`tel:${teacher.phone}`} className="hover:text-primary">
+                      <a
+                        href={`tel:${teacher.phone}`}
+                        className="hover:text-primary"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         {teacher.phone}
                       </a>
                     </div>
@@ -99,7 +109,6 @@ export default async function TeachersPage() {
                 </div>
               </CardContent>
             </Card>
-            </Link>
           );
         })}
       </div>
