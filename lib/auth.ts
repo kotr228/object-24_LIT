@@ -1,8 +1,5 @@
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
-import { db } from '@/db';
-import { users } from '@/db/schema';
-import { eq } from 'drizzle-orm';
 
 const secret = new TextEncoder().encode(
   process.env.JWT_SECRET || 'dev-secret-key-change-in-production'
@@ -37,6 +34,10 @@ export async function getSession() {
   if (!userId) {
     return null;
   }
+
+  const { db } = await import('@/db');
+  const { users } = await import('@/db/schema');
+  const { eq } = await import('drizzle-orm');
 
   const [user] = await db
     .select()
