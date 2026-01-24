@@ -9,7 +9,15 @@ let _db: BetterSQLite3Database<typeof schema> | null = null;
 
 export function getDb(): BetterSQLite3Database<typeof schema> {
   if (!_db) {
-    const dbPath = path.join(process.cwd(), process.env.DATABASE_URL || 'local.db');
+    // Get database path and remove 'file:' prefix if present
+    let dbUrl = process.env.DATABASE_URL || 'local.db';
+    dbUrl = dbUrl.replace(/^file:/, '');
+
+    // If path is relative, join with cwd, otherwise use as is
+    const dbPath = path.isAbsolute(dbUrl)
+      ? dbUrl
+      : path.join(process.cwd(), dbUrl);
+
     const dbDir = path.dirname(dbPath);
 
     // Ensure directory exists
