@@ -1,6 +1,6 @@
 import { requireAuth } from '@/lib/auth';
 import { db } from '@/db';
-import { teachers, profiles, testimonials, news } from '@/db/schema';
+import { teachers, profiles, testimonials, news, registrations } from '@/db/schema';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -11,18 +11,21 @@ import {
   Newspaper,
   LogOut,
   LayoutDashboard,
+  Settings,
+  UserPlus,
 } from 'lucide-react';
 
 export default async function AdminDashboard() {
   await requireAuth();
 
   // Get counts
-  const [teachersCount, profilesCount, testimonialsCount, newsCount] =
+  const [teachersCount, profilesCount, testimonialsCount, newsCount, registrationsCount] =
     await Promise.all([
       db.select().from(teachers).then((r) => r.length),
       db.select().from(profiles).then((r) => r.length),
       db.select().from(testimonials).then((r) => r.length),
       db.select().from(news).then((r) => r.length),
+      db.select().from(registrations).then((r) => r.length),
     ]);
 
   return (
@@ -52,7 +55,7 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Stats */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Вчителі</CardTitle>
@@ -104,10 +107,23 @@ export default async function AdminDashboard() {
               </p>
             </CardContent>
           </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Заявки</CardTitle>
+              <UserPlus className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{registrationsCount}</div>
+              <p className="text-xs text-muted-foreground">
+                Заявок на навчання
+              </p>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Management Cards */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <div className="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900 flex items-center justify-center mb-4">
@@ -171,6 +187,40 @@ export default async function AdminDashboard() {
             </CardHeader>
             <CardContent>
               <Link href="/admin/news">
+                <Button className="w-full">Управління</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="w-12 h-12 rounded-lg bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center mb-4">
+                <UserPlus className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+              </div>
+              <CardTitle>Заявки</CardTitle>
+              <CardDescription>
+                Перегляд заявок на навчання
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/admin/registrations">
+                <Button className="w-full">Управління</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-900 flex items-center justify-center mb-4">
+                <Settings className="h-6 w-6 text-gray-600 dark:text-gray-400" />
+              </div>
+              <CardTitle>Налаштування</CardTitle>
+              <CardDescription>
+                Контактна інформація та базові дані
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/admin/settings">
                 <Button className="w-full">Управління</Button>
               </Link>
             </CardContent>

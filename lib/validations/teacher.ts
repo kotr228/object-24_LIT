@@ -9,7 +9,8 @@ export const teacherSchema = z.object({
   bio: z.string().optional(),
   email: z.string().email('Невірний формат email').optional().or(z.literal('')),
   phone: z.string().optional(),
-  photo: z.string().url('Невірний формат URL').optional().or(z.literal('')),
+  photo: z.string().optional().or(z.literal('')),
+  cardColor: z.string().optional().default('#3b82f6'),
   order: z.number().int().min(0).default(0),
 });
 

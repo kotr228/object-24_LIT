@@ -14,6 +14,7 @@ export const teachers = sqliteTable('teachers', {
   bio: text('bio'),
   email: text('email'),
   phone: text('phone'),
+  cardColor: text('card_color').default('#3b82f6'),
   order: integer('order').notNull().default(0),
   createdAt: integer('created_at', { mode: 'timestamp' })
     .notNull()

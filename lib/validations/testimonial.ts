@@ -6,7 +6,8 @@ export const testimonialSchema = z.object({
   content: z.string().min(20, 'Відгук має містити мінімум 20 символів'),
   achievement: z.string().optional(),
   university: z.string().optional(),
-  photo: z.string().url('Невірний формат URL').optional().or(z.literal('')),
+  photo: z.string().optional().or(z.literal('')),
+  cardColor: z.string().optional().default('#10b981'),
   isPublished: z.boolean().default(true),
   order: z.number().int().min(0).default(0),
 });

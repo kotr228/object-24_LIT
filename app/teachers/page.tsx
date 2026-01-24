@@ -2,6 +2,8 @@ import { db } from '@/db';
 import { teachers } from '@/db/schema';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Mail, Phone } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata = {
   title: 'Наші вчителі - ЛІТ Олександрія',
@@ -29,36 +31,50 @@ export default async function TeachersPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {allTeachers.map((teacher) => {
           const initials = `${teacher.firstName.charAt(0)}${teacher.lastName.charAt(0)}`;
+          const cardColor = teacher.cardColor || '#3b82f6';
 
           return (
-            <Card key={teacher.id} className="group hover:shadow-lg transition-all duration-300">
-              <CardHeader>
-                <div className="flex items-start gap-4 mb-4">
-                  {teacher.photo ? (
-                    <img
-                      src={teacher.photo}
-                      alt={`${teacher.firstName} ${teacher.lastName}`}
-                      className="w-16 h-16 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-xl">
-                      {initials}
-                    </div>
-                  )}
-                  <div className="flex-1">
-                    <CardTitle className="text-lg mb-1">
-                      {teacher.firstName} {teacher.lastName}
-                    </CardTitle>
-                    {teacher.middleName && (
-                      <p className="text-sm text-muted-foreground">{teacher.middleName}</p>
+            <Link href={`/teachers/${teacher.id}`} key={teacher.id}>
+              <Card
+                className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-t-4"
+                style={{ borderTopColor: cardColor }}
+              >
+                <CardHeader>
+                  <div className="flex items-start gap-4 mb-4">
+                    {teacher.photo ? (
+                      <div className="relative w-20 h-20 rounded-full overflow-hidden ring-4" style={{ ringColor: cardColor }}>
+                        <Image
+                          src={teacher.photo}
+                          alt={`${teacher.firstName} ${teacher.lastName}`}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className="w-20 h-20 rounded-full flex items-center justify-center text-white font-bold text-xl"
+                        style={{ backgroundColor: cardColor }}
+                      >
+                        {initials}
+                      </div>
                     )}
+                    <div className="flex-1">
+                      <CardTitle className="text-lg mb-1 group-hover:text-primary transition-colors">
+                        {teacher.firstName} {teacher.lastName}
+                      </CardTitle>
+                      {teacher.middleName && (
+                        <p className="text-sm text-muted-foreground">{teacher.middleName}</p>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="bg-primary/10 rounded-lg px-3 py-2 mb-2">
-                  <p className="text-sm font-semibold text-primary">{teacher.position}</p>
-                </div>
-                <CardDescription className="text-sm">{teacher.specialization}</CardDescription>
-              </CardHeader>
+                  <div
+                    className="rounded-lg px-3 py-2 mb-2"
+                    style={{ backgroundColor: `${cardColor}15` }}
+                  >
+                    <p className="text-sm font-semibold" style={{ color: cardColor }}>{teacher.position}</p>
+                  </div>
+                  <CardDescription className="text-sm">{teacher.specialization}</CardDescription>
+                </CardHeader>
               <CardContent>
                 {teacher.bio && (
                   <p className="text-sm text-muted-foreground mb-4">{teacher.bio}</p>
@@ -83,6 +99,7 @@ export default async function TeachersPage() {
                 </div>
               </CardContent>
             </Card>
+            </Link>
           );
         })}
       </div>

@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import { Mail, Phone, MapPin } from 'lucide-react';
+import { getSettings } from '@/actions/settings';
 
-export function Footer() {
+export async function Footer() {
+  const settings = await getSettings();
+
   return (
     <footer className="border-t bg-muted/40">
       <div className="container py-12">
@@ -9,11 +12,10 @@ export function Footer() {
           {/* Про ліцей */}
           <div>
             <h3 className="text-lg font-semibold mb-4">
-              Олександрійський ліцей інформаційних технологій
+              {settings.schoolName}
             </h3>
             <p className="text-sm text-muted-foreground">
-              Сучасна освіта, професійні вчителі, індивідуальний підхід до
-              кожного учня.
+              {settings.schoolDescription}
             </p>
           </div>
 
@@ -62,21 +64,21 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                <span>м. Олександрія, Кіровоградська область</span>
+                <span>{settings.address}</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-4 w-4 flex-shrink-0" />
-                <a href="tel:+380123456789" className="hover:text-primary">
-                  +38 (012) 345-67-89
+                <a href={`tel:${settings.phone.replace(/\s/g, '')}`} className="hover:text-primary">
+                  {settings.phone}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 flex-shrink-0" />
                 <a
-                  href="mailto:info@lit.kr.ua"
+                  href={`mailto:${settings.email}`}
                   className="hover:text-primary"
                 >
-                  info@lit.kr.ua
+                  {settings.email}
                 </a>
               </li>
             </ul>
@@ -85,8 +87,7 @@ export function Footer() {
 
         <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
           <p>
-            © {new Date().getFullYear()} Олександрійський ліцей інформаційних
-            технологій. Всі права захищені.
+            © {new Date().getFullYear()} {settings.schoolName}. Всі права захищені.
           </p>
         </div>
       </div>

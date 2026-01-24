@@ -11,6 +11,7 @@ export const testimonials = sqliteTable('testimonials', {
   content: text('content').notNull(),
   achievement: text('achievement'),
   university: text('university'),
+  cardColor: text('card_color').default('#10b981'),
   order: integer('order').notNull().default(0),
   isPublished: integer('is_published', { mode: 'boolean' })
     .notNull()

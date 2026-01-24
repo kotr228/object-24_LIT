@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { testimonialSchema, type TestimonialFormData } from '@/lib/validations/testimonial';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
+import { ImageUpload } from '@/components/ui/image-upload';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { createTestimonial, updateTestimonial } from '@/actions/testimonials';
 import { toast } from 'sonner';
@@ -26,6 +27,7 @@ export function TestimonialForm({ testimonial, open, onOpenChange }: Testimonial
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     reset,
   } = useForm<TestimonialFormData>({
@@ -37,6 +39,7 @@ export function TestimonialForm({ testimonial, open, onOpenChange }: Testimonial
       achievement: '',
       university: '',
       photo: '',
+      cardColor: '#10b981',
       isPublished: true,
       order: 0,
     },
@@ -122,24 +125,50 @@ export function TestimonialForm({ testimonial, open, onOpenChange }: Testimonial
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="photo">URL фото</Label>
-            <Input id="photo" {...register('photo')} placeholder="https://..." />
-            {errors.photo && (
-              <p className="text-sm text-red-500">{errors.photo.message}</p>
+          <Controller
+            name="photo"
+            control={control}
+            render={({ field }) => (
+              <ImageUpload
+                label="Фото випускника"
+                value={field.value}
+                onChange={field.onChange}
+                folder="testimonials"
+              />
             )}
-          </div>
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="order">Порядок сортування</Label>
-            <Input
-              id="order"
-              type="number"
-              {...register('order', { valueAsNumber: true })}
-            />
-            {errors.order && (
-              <p className="text-sm text-red-500">{errors.order.message}</p>
-            )}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="cardColor">Колір картки</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="cardColor"
+                  type="color"
+                  {...register('cardColor')}
+                  className="h-10 w-20"
+                />
+                <Input
+                  {...register('cardColor')}
+                  placeholder="#10b981"
+                />
+              </div>
+              {errors.cardColor && (
+                <p className="text-sm text-red-500">{errors.cardColor.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="order">Порядок сортування</Label>
+              <Input
+                id="order"
+                type="number"
+                {...register('order', { valueAsNumber: true })}
+              />
+              {errors.order && (
+                <p className="text-sm text-red-500">{errors.order.message}</p>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center space-x-2">

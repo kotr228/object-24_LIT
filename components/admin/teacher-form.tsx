@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { teacherSchema, type TeacherFormData } from '@/lib/validations/teacher';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { ImageUpload } from '@/components/ui/image-upload';
 import { createTeacher, updateTeacher } from '@/actions/teachers';
 import { toast } from 'sonner';
 
@@ -24,6 +25,7 @@ export function TeacherForm({ teacher, open, onOpenChange }: TeacherFormProps) {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     reset,
   } = useForm<TeacherFormData>({
@@ -38,6 +40,7 @@ export function TeacherForm({ teacher, open, onOpenChange }: TeacherFormProps) {
       email: '',
       phone: '',
       photo: '',
+      cardColor: '#3b82f6',
       order: 0,
     },
   });
@@ -141,24 +144,50 @@ export function TeacherForm({ teacher, open, onOpenChange }: TeacherFormProps) {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="photo">URL фото</Label>
-            <Input id="photo" {...register('photo')} />
-            {errors.photo && (
-              <p className="text-sm text-red-500">{errors.photo.message}</p>
+          <Controller
+            name="photo"
+            control={control}
+            render={({ field }) => (
+              <ImageUpload
+                label="Фото вчителя"
+                value={field.value}
+                onChange={field.onChange}
+                folder="teachers"
+              />
             )}
-          </div>
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="order">Порядок сортування</Label>
-            <Input
-              id="order"
-              type="number"
-              {...register('order', { valueAsNumber: true })}
-            />
-            {errors.order && (
-              <p className="text-sm text-red-500">{errors.order.message}</p>
-            )}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="cardColor">Колір картки</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="cardColor"
+                  type="color"
+                  {...register('cardColor')}
+                  className="h-10 w-20"
+                />
+                <Input
+                  {...register('cardColor')}
+                  placeholder="#3b82f6"
+                />
+              </div>
+              {errors.cardColor && (
+                <p className="text-sm text-red-500">{errors.cardColor.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="order">Порядок сортування</Label>
+              <Input
+                id="order"
+                type="number"
+                {...register('order', { valueAsNumber: true })}
+              />
+              {errors.order && (
+                <p className="text-sm text-red-500">{errors.order.message}</p>
+              )}
+            </div>
           </div>
 
           <DialogFooter>
