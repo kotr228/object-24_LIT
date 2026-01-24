@@ -5,3 +5,5 @@ export * from './testimonials';
 export * from './news';
 export * from './settings';
 export * from './registrations';
+export * from './about-content';
+export * from './profile-media';

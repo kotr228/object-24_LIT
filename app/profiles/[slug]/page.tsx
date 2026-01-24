@@ -4,9 +4,11 @@ import { eq } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, ArrowLeft } from 'lucide-react';
+import { BookOpen, ArrowLeft, FileText, Video, Presentation } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { getProfileMedia } from '@/actions/profile-media';
+import Image from 'next/image';
 
 export async function generateStaticParams() {
   const allProfiles = await db.select().from(profiles);
@@ -38,6 +40,8 @@ export default async function ProfilePage({ params }: { params: Promise<{ slug: 
   if (!profile) {
     notFound();
   }
+
+  const media = await getProfileMedia(profile.id);
 
   const colorMap: Record<string, string> = {
     blue: 'from-blue-500 to-cyan-500',
@@ -95,6 +99,47 @@ export default async function ProfilePage({ params }: { params: Promise<{ slug: 
                       {subject}
                     </Badge>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {media.length > 0 && (
+              <div>
+                <h3 className="text-2xl font-semibold mb-4">Презентації та матеріали</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {media.map((item) => {
+                    const isVideo = item.mediaType === 'video';
+                    const isPresentation = item.mediaType === 'presentation';
+                    const icon = isVideo ? Video : isPresentation ? Presentation : FileText;
+                    const Icon = icon;
+
+                    return (
+                      <Card key={item.id} className="hover:shadow-md transition-shadow">
+                        <CardContent className="p-4">
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-start gap-3 group"
+                          >
+                            <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${gradient} flex items-center justify-center flex-shrink-0`}>
+                              <Icon className="h-6 w-6 text-white" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-semibold group-hover:text-primary transition-colors mb-1">
+                                {item.title}
+                              </h4>
+                              {item.description && (
+                                <p className="text-sm text-muted-foreground line-clamp-2">
+                                  {item.description}
+                                </p>
+                              )}
+                            </div>
+                          </a>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
                 </div>
               </div>
             )}
