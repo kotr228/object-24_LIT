@@ -11,25 +11,26 @@ import Link from 'next/link';
 import { ProfileMediaManager } from './profile-media-manager';
 
 interface ProfileMediaPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function ProfileMediaPage({ params }: ProfileMediaPageProps) {
   await requireAuth();
+  const { id } = await params;
 
   const [profile] = await db
     .select()
     .from(profiles)
-    .where(eq(profiles.id, params.id))
+    .where(eq(profiles.id, id))
     .limit(1);
 
   if (!profile) {
     notFound();
   }
 
-  const media = await getProfileMedia(params.id);
+  const media = await getProfileMedia(id);
 
   return (
     <div className="container mx-auto py-10">
@@ -49,7 +50,7 @@ export default async function ProfileMediaPage({ params }: ProfileMediaPageProps
         </p>
       </div>
 
-      <ProfileMediaManager profileId={params.id} initialMedia={media} />
+      <ProfileMediaManager profileId={id} initialMedia={media} />
     </div>
   );
 }

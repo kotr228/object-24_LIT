@@ -5,14 +5,16 @@ import { profiles, testimonials, news } from '@/db/schema';
 import { desc, eq } from 'drizzle-orm';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BookOpen, Users, MessageSquare, Newspaper } from 'lucide-react';
+import { ArrowRight, BookOpen, Users, MessageSquare, Newspaper, GraduationCap } from 'lucide-react';
+import { ResponsiveCarousel } from '@/components/ui/carousel';
+import Image from 'next/image';
 
 export default async function HomePage() {
-  // Fetch data for homepage
+  // Fetch data for homepage - get more items for carousel rotation
   const [latestProfiles, latestTestimonials, latestNews] = await Promise.all([
-    db.select().from(profiles).orderBy(profiles.order).limit(4),
-    db.select().from(testimonials).where(eq(testimonials.isPublished, true)).orderBy(testimonials.order).limit(3),
-    db.select().from(news).where(eq(news.isPublished, true)).orderBy(desc(news.publishedAt)).limit(3),
+    db.select().from(profiles).orderBy(profiles.order),
+    db.select().from(testimonials).where(eq(testimonials.isPublished, true)).orderBy(testimonials.order).limit(9),
+    db.select().from(news).where(eq(news.isPublished, true)).orderBy(desc(news.publishedAt)).limit(9),
   ]);
 
   return (
@@ -35,7 +37,7 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <ResponsiveCarousel autoplayDelay={20000}>
             {latestProfiles.map((profile) => {
               const colorMap: Record<string, string> = {
                 blue: 'from-blue-500 to-cyan-500',
@@ -46,7 +48,7 @@ export default async function HomePage() {
               const gradient = colorMap[profile.color || 'blue'];
 
               return (
-                <Card key={profile.id} className="group hover:shadow-lg transition-all duration-300">
+                <Card key={profile.id} className="group hover:shadow-lg transition-all duration-300 h-full">
                   <CardHeader>
                     <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${gradient} flex items-center justify-center mb-4`}>
                       <BookOpen className="h-6 w-6 text-white" />
@@ -65,7 +67,7 @@ export default async function HomePage() {
                 </Card>
               );
             })}
-          </div>
+          </ResponsiveCarousel>
 
           <div className="mt-12 text-center">
             <Link href="/profiles">
@@ -94,31 +96,72 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {latestTestimonials.map((testimonial) => (
-              <Card key={testimonial.id} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg">
-                      {testimonial.name.charAt(0)}
+          <ResponsiveCarousel autoplayDelay={20000}>
+            {latestTestimonials.map((testimonial) => {
+              const initial = testimonial.name.charAt(0);
+              const cardColor = testimonial.cardColor || '#10b981';
+
+              return (
+                <Card
+                  key={testimonial.id}
+                  className="hover:shadow-lg transition-shadow border-t-4 h-full"
+                  style={{ borderTopColor: cardColor }}
+                >
+                  <CardHeader>
+                    <div className="flex items-center gap-4 mb-4">
+                      {testimonial.photo ? (
+                        <div className="relative w-16 h-16 rounded-full overflow-hidden">
+                          <Image
+                            src={testimonial.photo}
+                            alt={testimonial.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div
+                          className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl"
+                          style={{ backgroundColor: cardColor }}
+                        >
+                          {initial}
+                        </div>
+                      )}
+                      <div>
+                        <CardTitle className="text-lg">{testimonial.name}</CardTitle>
+                        <CardDescription className="flex items-center gap-1">
+                          <GraduationCap className="h-3 w-3" />
+                          Випуск {testimonial.graduationYear}
+                        </CardDescription>
+                      </div>
                     </div>
-                    <div>
-                      <CardTitle className="text-lg">{testimonial.name}</CardTitle>
-                      <CardDescription>Випуск {testimonial.graduationYear}</CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">{testimonial.content}</p>
-                  {testimonial.university && (
-                    <div className="text-xs font-semibold text-primary">
-                      {testimonial.university}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  </CardHeader>
+                  <CardContent>
+                    <blockquote
+                      className="text-sm text-muted-foreground mb-4 italic border-l-4 pl-4"
+                      style={{ borderLeftColor: cardColor }}
+                    >
+                      "{testimonial.content}"
+                    </blockquote>
+                    {testimonial.achievement && (
+                      <div
+                        className="rounded-lg px-3 py-2 mb-2"
+                        style={{ backgroundColor: `${cardColor}15` }}
+                      >
+                        <p className="text-xs font-semibold" style={{ color: cardColor }}>
+                          {testimonial.achievement}
+                        </p>
+                      </div>
+                    )}
+                    {testimonial.university && (
+                      <div className="text-xs font-semibold" style={{ color: cardColor }}>
+                        🎓 {testimonial.university}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </ResponsiveCarousel>
 
           <div className="mt-12 text-center">
             <Link href="/testimonials">
@@ -145,9 +188,9 @@ export default async function HomePage() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <ResponsiveCarousel autoplayDelay={20000}>
               {latestNews.map((item) => (
-                <Card key={item.id} className="hover:shadow-lg transition-shadow">
+                <Card key={item.id} className="hover:shadow-lg transition-shadow h-full">
                   <CardHeader>
                     <div className="text-xs text-muted-foreground mb-2">
                       {item.publishedAt ? new Date(item.publishedAt).toLocaleDateString('uk-UA') : ''}
@@ -165,7 +208,7 @@ export default async function HomePage() {
                   </CardContent>
                 </Card>
               ))}
-            </div>
+            </ResponsiveCarousel>
 
             <div className="mt-12 text-center">
               <Link href="/news">

@@ -32,7 +32,7 @@ export function TeacherCard({ teacher }: TeacherCardProps) {
 
   return (
     <Card
-      className="group hover:shadow-lg transition-all duration-300"
+      className="group hover:shadow-lg transition-all duration-300 h-full"
       style={{ borderTop: `4px solid ${cardColor}` }}
     >
       <CardHeader>

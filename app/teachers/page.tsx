@@ -2,6 +2,7 @@ import { db } from '@/db';
 import { teachers } from '@/db/schema';
 import { Users } from 'lucide-react';
 import { TeacherCard } from '@/components/teacher-card';
+import { ResponsiveCarousel } from '@/components/ui/carousel';
 
 export const metadata = {
   title: 'Наші вчителі - ЛІТ Олександрія',
@@ -26,11 +27,11 @@ export default async function TeachersPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <ResponsiveCarousel autoplayDelay={20000}>
         {allTeachers.map((teacher) => (
           <TeacherCard key={teacher.id} teacher={teacher} />
         ))}
-      </div>
+      </ResponsiveCarousel>
     </div>
   );
 }
