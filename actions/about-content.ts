@@ -43,18 +43,18 @@ export async function createAboutSection(data: {
   try {
     await requireAuth();
 
-    await db.insert(aboutSections).values({
+    const [newSection] = await db.insert(aboutSections).values({
       ...data,
       order: data.order ?? 0,
       isPublished: data.isPublished ?? true,
       createdAt: new Date(),
       updatedAt: new Date(),
-    });
+    }).returning();
 
     revalidatePath('/about');
     revalidatePath('/admin/about');
 
-    return { success: true, message: 'Секцію успішно додано' };
+    return { success: true, message: 'Секцію успішно додано', data: newSection };
   } catch (error) {
     console.error('Error creating about section:', error);
     return { success: false, message: 'Помилка при додаванні секції' };
@@ -70,18 +70,19 @@ export async function updateAboutSection(id: string, data: {
   try {
     await requireAuth();
 
-    await db
+    const [updatedSection] = await db
       .update(aboutSections)
       .set({
         ...data,
         updatedAt: new Date(),
       })
-      .where(eq(aboutSections.id, id));
+      .where(eq(aboutSections.id, id))
+      .returning();
 
     revalidatePath('/about');
     revalidatePath('/admin/about');
 
-    return { success: true, message: 'Секцію успішно оновлено' };
+    return { success: true, message: 'Секцію успішно оновлено', data: updatedSection };
   } catch (error) {
     console.error('Error updating about section:', error);
     return { success: false, message: 'Помилка при оновленні секції' };
@@ -124,16 +125,16 @@ export async function createAboutMedia(data: {
   try {
     await requireAuth();
 
-    await db.insert(aboutMedia).values({
+    const [newMedia] = await db.insert(aboutMedia).values({
       ...data,
       order: data.order ?? 0,
       createdAt: new Date(),
-    });
+    }).returning();
 
     revalidatePath('/about');
     revalidatePath('/admin/about');
 
-    return { success: true, message: 'Медіа успішно додано' };
+    return { success: true, message: 'Медіа успішно додано', data: newMedia };
   } catch (error) {
     console.error('Error creating about media:', error);
     return { success: false, message: 'Помилка при додаванні медіа' };
