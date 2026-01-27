@@ -5,21 +5,75 @@ import { profiles, testimonials, news } from '@/db/schema';
 import { desc, eq } from 'drizzle-orm';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BookOpen, Users, MessageSquare, Newspaper, GraduationCap } from 'lucide-react';
+import { ArrowRight, BookOpen, Users, MessageSquare, Newspaper, GraduationCap, Award, Target } from 'lucide-react';
 import { ResponsiveCarousel } from '@/components/ui/carousel';
 import Image from 'next/image';
+import { getAboutSections } from '@/actions/about-content';
 
 export default async function HomePage() {
   // Fetch data for homepage - get more items for carousel rotation
-  const [latestProfiles, latestTestimonials, latestNews] = await Promise.all([
+  const [latestProfiles, latestTestimonials, latestNews, aboutSections] = await Promise.all([
     db.select().from(profiles).orderBy(profiles.order),
     db.select().from(testimonials).where(eq(testimonials.isPublished, true)).orderBy(testimonials.order).limit(9),
     db.select().from(news).where(eq(news.isPublished, true)).orderBy(desc(news.publishedAt)).limit(9),
+    getAboutSections(),
   ]);
+
+  // Filter main sections to show on homepage (limit to first 3)
+  const mainAboutSections = aboutSections.filter(s => s.sectionType === 'main').slice(0, 3);
 
   return (
     <div className="flex flex-col">
       <Hero />
+
+      {/* About Section - Main Info */}
+      {mainAboutSections.length > 0 && (
+        <section className="py-16">
+          <div className="container">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center rounded-full border bg-background px-3 py-1 text-sm mb-4">
+                <BookOpen className="mr-2 h-4 w-4 text-primary" />
+                <span className="text-muted-foreground">Про ліцей</span>
+              </div>
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+                Олександрійський ліцей інформаційних технологій
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto auto-rows-fr" style={{ gridAutoFlow: 'dense' }}>
+              {mainAboutSections.map((section) => {
+                const colSpan = section.content && section.content.length < 300 ? 'md:col-span-1' :
+                               section.content && section.content.length < 700 ? 'md:col-span-2' : 'md:col-span-3';
+
+                return (
+                  <Card key={section.id} className={`border-2 hover:shadow-lg transition-shadow ${colSpan}`}>
+                    <CardHeader>
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                          <BookOpen className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                        </div>
+                        <CardTitle className="text-2xl">{section.title}</CardTitle>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="text-muted-foreground">
+                      <p className="whitespace-pre-wrap break-words">{section.content}</p>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+
+            <div className="mt-12 text-center">
+              <Link href="/about">
+                <Button size="lg" variant="outline">
+                  Дізнатись більше
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Profiles Section */}
       <section className="py-16 bg-muted/30">

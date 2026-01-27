@@ -26,8 +26,8 @@ const sectionColors: Record<string, { bg: string; icon: string }> = {
 
 function getCardWidth(content: string): string {
   const length = content.length;
-  if (length < 200) return 'md:col-span-1';
-  if (length < 500) return 'md:col-span-2';
+  if (length < 300) return 'md:col-span-1';
+  if (length < 700) return 'md:col-span-2';
   return 'md:col-span-3';
 }
 
@@ -81,7 +81,7 @@ export default async function AboutPage() {
                         </div>
                       </CardHeader>
                       <CardContent className="text-muted-foreground">
-                        <p className="whitespace-pre-wrap">{section.content}</p>
+                        <p className="whitespace-pre-wrap break-words">{section.content}</p>
                       </CardContent>
                     </Card>
                   );
@@ -108,7 +108,7 @@ export default async function AboutPage() {
                         </div>
                       </CardHeader>
                       <CardContent className="text-muted-foreground">
-                        <p className="whitespace-pre-wrap">{section.content}</p>
+                        <p className="whitespace-pre-wrap break-words">{section.content}</p>
                       </CardContent>
                     </Card>
                   );
@@ -135,7 +135,7 @@ export default async function AboutPage() {
                         </div>
                       </CardHeader>
                       <CardContent className="text-muted-foreground">
-                        <p className="whitespace-pre-wrap">{section.content}</p>
+                        <p className="whitespace-pre-wrap break-words">{section.content}</p>
                       </CardContent>
                     </Card>
                   );
@@ -162,7 +162,7 @@ export default async function AboutPage() {
                           <CardTitle className="text-lg">{section.title}</CardTitle>
                         </CardHeader>
                         <CardContent>
-                          <CardDescription className="whitespace-pre-wrap">
+                          <CardDescription className="whitespace-pre-wrap break-words">
                             {section.content}
                           </CardDescription>
                         </CardContent>

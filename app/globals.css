@@ -4,19 +4,19 @@
 
 @layer base {
   :root {
-    /* School colors: #224d8a, #e0cd28, #234181, #eee9cc */
+    /* School colors: #224d8a, #e0cd28, #234181, #eee9cc, #e2cb22 */
     --background: 48 48% 93%;  /* #eee9cc light beige */
-    --foreground: 215 60% 25%;  /* #234181 dark blue */
+    --foreground: 52 75% 51%;  /* #e2cb22 yellow for readability */
     --card: 48 48% 93%;  /* #eee9cc with transparency */
-    --card-foreground: 215 60% 25%;
+    --card-foreground: 52 75% 51%;  /* #e2cb22 yellow */
     --popover: 48 48% 93%;
-    --popover-foreground: 215 60% 25%;
+    --popover-foreground: 52 75% 51%;
     --primary: 211 60% 33%;  /* #224d8a main blue */
-    --primary-foreground: 48 48% 93%;
+    --primary-foreground: 52 75% 51%;  /* #e2cb22 yellow */
     --secondary: 51 70% 52%;  /* #e0cd28 yellow */
     --secondary-foreground: 215 60% 25%;
     --muted: 48 30% 85%;
-    --muted-foreground: 215 30% 40%;
+    --muted-foreground: 52 70% 45%;  /* Darker yellow for muted text */
     --accent: 51 70% 52%;  /* #e0cd28 yellow */
     --accent-foreground: 215 60% 25%;
     --destructive: 0 84.2% 60.2%;
