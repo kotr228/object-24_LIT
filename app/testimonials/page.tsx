@@ -46,7 +46,7 @@ export default async function TestimonialsPage() {
               <CardHeader>
                 <div className="flex items-center gap-4 mb-4">
                   {testimonial.photo ? (
-                    <div className="relative w-16 h-16 rounded-full overflow-hidden">
+                    <div className="relative w-24 h-24 rounded-full overflow-hidden">
                       <Image
                         src={testimonial.photo}
                         alt={testimonial.name}
@@ -56,7 +56,7 @@ export default async function TestimonialsPage() {
                     </div>
                   ) : (
                     <div
-                      className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-2xl"
+                      className="w-24 h-24 rounded-full flex items-center justify-center text-white font-bold text-3xl"
                       style={{ backgroundColor: cardColor }}
                     >
                       {initial}

@@ -40,7 +40,7 @@ export function TeacherCard({ teacher }: TeacherCardProps) {
           <div className="flex items-start gap-4 mb-4">
             {teacher.photo ? (
               <div
-                className="relative w-20 h-20 rounded-full overflow-hidden"
+                className="relative w-24 h-24 rounded-full overflow-hidden"
                 style={{ boxShadow: `0 0 0 4px ${cardColor}20` }}
               >
                 <Image
@@ -52,7 +52,7 @@ export function TeacherCard({ teacher }: TeacherCardProps) {
               </div>
             ) : (
               <div
-                className="w-20 h-20 rounded-full flex items-center justify-center text-white font-bold text-xl"
+                className="w-24 h-24 rounded-full flex items-center justify-center text-white font-bold text-2xl"
                 style={{ backgroundColor: cardColor }}
               >
                 {initials}

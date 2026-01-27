@@ -62,13 +62,13 @@ export function Header() {
       </nav>
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden">
+        <>
           <div
-            className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm lg:hidden"
             onClick={() => setMobileMenuOpen(false)}
             aria-hidden="true"
           />
-          <div className="fixed inset-y-0 right-0 z-[70] w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 shadow-xl">
+          <div className="fixed inset-y-0 right-0 z-[70] w-[85vw] max-w-sm overflow-y-auto bg-background px-6 py-6 shadow-2xl lg:hidden">
             <div className="flex items-center justify-between">
               <Link href="/" className="-m-1.5 p-1.5">
                 <span className="text-xl font-bold text-primary">
@@ -112,7 +112,7 @@ export function Header() {
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </header>
   );
