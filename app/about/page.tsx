@@ -26,8 +26,8 @@ const sectionColors: Record<string, { bg: string; icon: string }> = {
 
 function getCardWidth(content: string): string {
   const length = content.length;
-  if (length < 150) return 'md:col-span-1';
-  if (length < 400) return 'md:col-span-2';
+  if (length < 200) return 'md:col-span-1';
+  if (length < 500) return 'md:col-span-2';
   return 'md:col-span-3';
 }
 
@@ -64,7 +64,7 @@ export default async function AboutPage() {
           <>
             {/* Main sections */}
             {mainSections.length > 0 && (
-              <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <section className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-fr" style={{ gridAutoFlow: 'dense' }}>
                 {mainSections.map((section) => {
                   const Icon = sectionIcons[section.sectionType] || BookOpen;
                   const colors = sectionColors[section.sectionType] || sectionColors.main;
@@ -91,7 +91,7 @@ export default async function AboutPage() {
 
             {/* History sections */}
             {historySections.length > 0 && (
-              <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <section className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-fr" style={{ gridAutoFlow: 'dense' }}>
                 {historySections.map((section) => {
                   const Icon = sectionIcons[section.sectionType] || BookOpen;
                   const colors = sectionColors[section.sectionType] || sectionColors.history;
@@ -118,7 +118,7 @@ export default async function AboutPage() {
 
             {/* Mission and Vision */}
             {missionSections.length > 0 && (
-              <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <section className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-fr" style={{ gridAutoFlow: 'dense' }}>
                 {missionSections.map((section) => {
                   const Icon = sectionIcons[section.sectionType] || Target;
                   const colors = sectionColors[section.sectionType] || sectionColors.mission;
@@ -147,7 +147,7 @@ export default async function AboutPage() {
             {valuesSections.length > 0 && (
               <section>
                 <h2 className="text-3xl font-bold text-center mb-8">Наші цінності</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-fr" style={{ gridAutoFlow: 'dense' }}>
                   {valuesSections.map((section) => {
                     const Icon = sectionIcons[section.sectionType] || Heart;
                     const colors = sectionColors[section.sectionType] || sectionColors.values;
@@ -177,7 +177,7 @@ export default async function AboutPage() {
             {achievementSections.length > 0 && (
               <section>
                 <h2 className="text-3xl font-bold text-center mb-8">Наші досягнення</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-fr" style={{ gridAutoFlow: 'dense' }}>
                   {achievementSections.map((section, index) => {
                     const Icon = sectionIcons[section.sectionType] || Award;
                     const colors = sectionColors[section.sectionType] || sectionColors.achievements;
@@ -207,7 +207,7 @@ export default async function AboutPage() {
             {media.length > 0 && (
               <section>
                 <h2 className="text-3xl font-bold text-center mb-8">Галерея</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-fr" style={{ gridAutoFlow: 'dense' }}>
                   {media.map((item) => (
                     <Card key={item.id} className="overflow-hidden hover:shadow-lg transition-shadow group">
                       {item.mediaType === 'image' ? (
