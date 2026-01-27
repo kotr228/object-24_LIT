@@ -9,9 +9,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { updateSettings } from '@/actions/settings';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
+import Image from 'next/image';
 
 interface SettingsFormProps {
   initialData: SettingsFormData & { id: string; updatedAt: string };
@@ -24,6 +26,8 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    watch,
   } = useForm<SettingsFormData>({
     resolver: zodResolver(settingsSchema),
     defaultValues: {
@@ -32,8 +36,11 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
       address: initialData.address,
       phone: initialData.phone,
       email: initialData.email,
+      logoType: initialData.logoType || 'new',
     },
   });
+
+  const logoType = watch('logoType');
 
   const onSubmit = async (data: SettingsFormData) => {
     setIsLoading(true);
@@ -61,6 +68,34 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="logoType">Логотип школи</Label>
+            <Select
+              value={logoType}
+              onValueChange={(value) => setValue('logoType', value as 'new' | 'old')}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Оберіть логотип" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="new">Новий логотип</SelectItem>
+                <SelectItem value="old">Старий логотип</SelectItem>
+              </SelectContent>
+            </Select>
+            <div className="mt-4 p-4 border rounded-lg bg-muted/50">
+              <p className="text-sm text-muted-foreground mb-2">Попередній перегляд:</p>
+              <div className="relative h-20 w-auto inline-block">
+                <Image
+                  src={logoType === 'new' ? '/img/LIT.png' : '/img/LITold.png'}
+                  alt="Логотип"
+                  width={logoType === 'new' ? 200 : 150}
+                  height={80}
+                  className="object-contain"
+                />
+              </div>
+            </div>
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="schoolName">Назва школи</Label>
             <Input

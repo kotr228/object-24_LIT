@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
+import Image from 'next/image';
 
 const navigation = [
   { name: 'Головна', href: '/' },
@@ -15,21 +16,33 @@ const navigation = [
   { name: 'Реєстрація', href: '/register' },
 ];
 
-export function Header() {
+interface HeaderProps {
+  logoType?: 'new' | 'old';
+}
+
+export function Header({ logoType = 'new' }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const logoSrc = logoType === 'new' ? '/img/LIT.png' : '/img/LITold.png';
+  const logoWidth = logoType === 'new' ? 60 : 45;
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-50 w-full border-b bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/70">
         <nav
           className="container flex items-center justify-between p-4"
           aria-label="Global"
         >
           <div className="flex lg:flex-1">
-            <Link href="/" className="-m-1.5 p-1.5">
-              <span className="text-2xl font-bold text-primary">
-                ЛІТ Олександрія
-              </span>
+            <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2">
+              <Image
+                src={logoSrc}
+                alt="ЛІТ Олександрія"
+                width={logoWidth}
+                height={40}
+                className="object-contain"
+                priority
+              />
             </Link>
           </div>
           <div className="flex lg:hidden">
@@ -71,12 +84,16 @@ export function Header() {
             onClick={() => setMobileMenuOpen(false)}
             aria-hidden="true"
           />
-          <div className="fixed inset-y-0 right-0 z-[9999] w-[85vw] max-w-sm overflow-y-auto bg-background px-6 py-6 shadow-2xl lg:hidden">
+          <div className="fixed inset-y-0 right-0 z-[9999] w-[85vw] max-w-sm overflow-y-auto bg-background/95 backdrop-blur-md px-6 py-6 shadow-2xl lg:hidden">
             <div className="flex items-center justify-between">
               <Link href="/" className="-m-1.5 p-1.5">
-                <span className="text-xl font-bold text-primary">
-                  ЛІТ Олександрія
-                </span>
+                <Image
+                  src={logoSrc}
+                  alt="ЛІТ Олександрія"
+                  width={logoWidth}
+                  height={40}
+                  className="object-contain"
+                />
               </Link>
               <button
                 type="button"
