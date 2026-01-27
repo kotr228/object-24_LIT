@@ -84,13 +84,14 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
             </Select>
             <div className="mt-4 p-4 border rounded-lg bg-muted/50">
               <p className="text-sm text-muted-foreground mb-2">Попередній перегляд:</p>
-              <div className="relative h-20 w-auto inline-block">
+              <div className="relative w-full h-32 flex items-center justify-start">
                 <Image
                   src={logoType === 'new' ? '/img/LIT.png' : '/img/LITold.png'}
                   alt="Логотип"
-                  width={logoType === 'new' ? 200 : 150}
-                  height={80}
+                  width={logoType === 'new' ? 240 : 180}
+                  height={120}
                   className="object-contain"
+                  style={{ maxHeight: '120px', width: 'auto' }}
                 />
               </div>
             </div>

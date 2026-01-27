@@ -57,7 +57,7 @@
 
   body {
     @apply text-foreground;
-    background-image: url('/img/fon/pngtree-elegant-dark-blue-gradient-background.webp');
+    background-image: url('/img/fon/fon2.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
