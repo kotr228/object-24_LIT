@@ -9,9 +9,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 interface TeacherPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -22,10 +22,11 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: TeacherPageProps) {
+  const { id } = await params;
   const [teacher] = await db
     .select()
     .from(teachers)
-    .where(eq(teachers.id, params.id))
+    .where(eq(teachers.id, id))
     .limit(1);
 
   if (!teacher) {
@@ -41,10 +42,11 @@ export async function generateMetadata({ params }: TeacherPageProps) {
 }
 
 export default async function TeacherPage({ params }: TeacherPageProps) {
+  const { id } = await params;
   const [teacher] = await db
     .select()
     .from(teachers)
-    .where(eq(teachers.id, params.id))
+    .where(eq(teachers.id, id))
     .limit(1);
 
   if (!teacher) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { teacherSchema, type TeacherFormData } from '@/lib/validations/teacher';
@@ -30,7 +30,7 @@ export function TeacherForm({ teacher, open, onOpenChange }: TeacherFormProps) {
     reset,
   } = useForm<TeacherFormData>({
     resolver: zodResolver(teacherSchema),
-    defaultValues: teacher || {
+    defaultValues: {
       firstName: '',
       lastName: '',
       middleName: '',
@@ -44,6 +44,39 @@ export function TeacherForm({ teacher, open, onOpenChange }: TeacherFormProps) {
       order: 0,
     },
   });
+
+  // Update form when teacher changes
+  useEffect(() => {
+    if (teacher) {
+      reset({
+        firstName: teacher.firstName || '',
+        lastName: teacher.lastName || '',
+        middleName: teacher.middleName || '',
+        position: teacher.position || '',
+        specialization: teacher.specialization || '',
+        bio: teacher.bio || '',
+        email: teacher.email || '',
+        phone: teacher.phone || '',
+        photo: teacher.photo || '',
+        cardColor: teacher.cardColor || '#3b82f6',
+        order: teacher.order || 0,
+      });
+    } else {
+      reset({
+        firstName: '',
+        lastName: '',
+        middleName: '',
+        position: '',
+        specialization: '',
+        bio: '',
+        email: '',
+        phone: '',
+        photo: '',
+        cardColor: '#3b82f6',
+        order: 0,
+      });
+    }
+  }, [teacher, reset, open]);
 
   const onSubmit = async (data: TeacherFormData) => {
     setLoading(true);

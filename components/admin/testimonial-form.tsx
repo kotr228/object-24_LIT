@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { testimonialSchema, type TestimonialFormData } from '@/lib/validations/testimonial';
@@ -22,7 +22,7 @@ interface TestimonialFormProps {
 
 export function TestimonialForm({ testimonial, open, onOpenChange }: TestimonialFormProps) {
   const [loading, setLoading] = useState(false);
-  const [isPublished, setIsPublished] = useState(testimonial?.isPublished ?? true);
+  const [isPublished, setIsPublished] = useState(true);
 
   const {
     register,
@@ -32,7 +32,7 @@ export function TestimonialForm({ testimonial, open, onOpenChange }: Testimonial
     reset,
   } = useForm<TestimonialFormData>({
     resolver: zodResolver(testimonialSchema),
-    defaultValues: testimonial || {
+    defaultValues: {
       name: '',
       graduationYear: new Date().getFullYear(),
       content: '',
@@ -44,6 +44,37 @@ export function TestimonialForm({ testimonial, open, onOpenChange }: Testimonial
       order: 0,
     },
   });
+
+  // Update form when testimonial changes
+  useEffect(() => {
+    if (testimonial) {
+      reset({
+        name: testimonial.name || '',
+        graduationYear: testimonial.graduationYear || new Date().getFullYear(),
+        content: testimonial.content || '',
+        achievement: testimonial.achievement || '',
+        university: testimonial.university || '',
+        photo: testimonial.photo || '',
+        cardColor: testimonial.cardColor || '#10b981',
+        isPublished: testimonial.isPublished ?? true,
+        order: testimonial.order || 0,
+      });
+      setIsPublished(testimonial.isPublished ?? true);
+    } else {
+      reset({
+        name: '',
+        graduationYear: new Date().getFullYear(),
+        content: '',
+        achievement: '',
+        university: '',
+        photo: '',
+        cardColor: '#10b981',
+        isPublished: true,
+        order: 0,
+      });
+      setIsPublished(true);
+    }
+  }, [testimonial, reset, open]);
 
   const onSubmit = async (data: TestimonialFormData) => {
     setLoading(true);
