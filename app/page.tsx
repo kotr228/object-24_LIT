@@ -52,7 +52,7 @@ export default async function HomePage() {
                         <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
                           <BookOpen className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                         </div>
-                        <CardTitle className="text-2xl">{section.title}</CardTitle>
+                        <CardTitle className="text-2xl card-title-white">{section.title}</CardTitle>
                       </div>
                     </CardHeader>
                     <CardContent className="text-muted-foreground">
@@ -107,7 +107,7 @@ export default async function HomePage() {
                     <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${gradient} flex items-center justify-center mb-4`}>
                       <BookOpen className="h-6 w-6 text-white" />
                     </div>
-                    <CardTitle className="text-xl">{profile.title}</CardTitle>
+                    <CardTitle className="text-xl card-title-white">{profile.title}</CardTitle>
                     <CardDescription>{profile.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -181,7 +181,7 @@ export default async function HomePage() {
                         </div>
                       )}
                       <div>
-                        <CardTitle className="text-lg">{testimonial.name}</CardTitle>
+                        <CardTitle className="text-lg card-title-white">{testimonial.name}</CardTitle>
                         <CardDescription className="flex items-center gap-1">
                           <GraduationCap className="h-3 w-3" />
                           Випуск {testimonial.graduationYear}
@@ -249,7 +249,7 @@ export default async function HomePage() {
                     <div className="text-xs text-muted-foreground mb-2">
                       {item.publishedAt ? new Date(item.publishedAt).toLocaleDateString('uk-UA') : ''}
                     </div>
-                    <CardTitle className="text-xl line-clamp-2">{item.title}</CardTitle>
+                    <CardTitle className="text-xl line-clamp-2 card-title-white">{item.title}</CardTitle>
                     <CardDescription className="line-clamp-3">{item.excerpt}</CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -281,7 +281,7 @@ export default async function HomePage() {
         <div className="container">
           <Card className="bg-gradient-to-r from-blue-600 to-purple-600 border-0 text-white">
             <CardHeader className="text-center pb-8 pt-12">
-              <CardTitle className="text-3xl sm:text-4xl mb-4">
+              <CardTitle className="text-3xl sm:text-4xl mb-4 card-title-white">
                 Готові приєднатися до нас?
               </CardTitle>
               <CardDescription className="text-blue-100 text-lg">

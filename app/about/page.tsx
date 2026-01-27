@@ -77,7 +77,7 @@ export default async function AboutPage() {
                           <div className={`w-10 h-10 rounded-lg ${colors.bg} flex items-center justify-center`}>
                             <Icon className={`h-5 w-5 ${colors.icon}`} />
                           </div>
-                          <CardTitle className="text-2xl">{section.title}</CardTitle>
+                          <CardTitle className="text-2xl card-title-white">{section.title}</CardTitle>
                         </div>
                       </CardHeader>
                       <CardContent className="text-muted-foreground">
@@ -104,7 +104,7 @@ export default async function AboutPage() {
                           <div className={`w-10 h-10 rounded-lg ${colors.bg} flex items-center justify-center`}>
                             <Icon className={`h-5 w-5 ${colors.icon}`} />
                           </div>
-                          <CardTitle className="text-2xl">{section.title}</CardTitle>
+                          <CardTitle className="text-2xl card-title-white">{section.title}</CardTitle>
                         </div>
                       </CardHeader>
                       <CardContent className="text-muted-foreground">
@@ -131,7 +131,7 @@ export default async function AboutPage() {
                           <div className={`w-10 h-10 rounded-lg ${colors.bg} flex items-center justify-center`}>
                             <Icon className={`h-5 w-5 ${colors.icon}`} />
                           </div>
-                          <CardTitle className="text-xl">{section.title}</CardTitle>
+                          <CardTitle className="text-xl card-title-white">{section.title}</CardTitle>
                         </div>
                       </CardHeader>
                       <CardContent className="text-muted-foreground">
@@ -159,7 +159,7 @@ export default async function AboutPage() {
                           <div className={`w-12 h-12 mx-auto rounded-full ${colors.bg} flex items-center justify-center mb-3`}>
                             <Icon className={`h-6 w-6 ${colors.icon}`} />
                           </div>
-                          <CardTitle className="text-lg">{section.title}</CardTitle>
+                          <CardTitle className="text-lg card-title-white">{section.title}</CardTitle>
                         </CardHeader>
                         <CardContent>
                           <CardDescription className="whitespace-pre-wrap break-words">
@@ -251,7 +251,7 @@ export default async function AboutPage() {
                     <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
                       <BookOpen className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                     </div>
-                    <CardTitle className="text-2xl">Наша історія</CardTitle>
+                    <CardTitle className="text-2xl card-title-white">Наша історія</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent className="text-muted-foreground space-y-4">
