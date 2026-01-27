@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { ProfileForm } from '@/components/admin/profile-form';
 import { deleteProfile } from '@/actions/profiles';
 import { toast } from 'sonner';
-import { Plus, Pencil, Trash2, ArrowLeft } from 'lucide-react';
+import { Plus, Pencil, Trash2, ArrowLeft, FileVideo } from 'lucide-react';
 import Link from 'next/link';
 import {
   Dialog,
@@ -152,10 +152,20 @@ export function ProfilesManagement({ initialProfiles }: ProfilesManagementProps)
                       <TableCell>{profile.order}</TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2">
+                          <Link href={`/admin/profiles/${profile.id}/media`}>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              title="Медіа"
+                            >
+                              <FileVideo className="h-4 w-4" />
+                            </Button>
+                          </Link>
                           <Button
                             variant="outline"
                             size="sm"
                             onClick={() => handleEdit(profile)}
+                            title="Редагувати"
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>
@@ -163,6 +173,7 @@ export function ProfilesManagement({ initialProfiles }: ProfilesManagementProps)
                             variant="outline"
                             size="sm"
                             onClick={() => handleDeleteClick(profile)}
+                            title="Видалити"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>

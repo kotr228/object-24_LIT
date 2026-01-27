@@ -13,6 +13,7 @@ import {
   LayoutDashboard,
   Settings,
   UserPlus,
+  FileText,
 } from 'lucide-react';
 
 export default async function AdminDashboard() {
@@ -204,6 +205,23 @@ export default async function AdminDashboard() {
             </CardHeader>
             <CardContent>
               <Link href="/admin/registrations">
+                <Button className="w-full">Управління</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="w-12 h-12 rounded-lg bg-teal-100 dark:bg-teal-900 flex items-center justify-center mb-4">
+                <FileText className="h-6 w-6 text-teal-600 dark:text-teal-400" />
+              </div>
+              <CardTitle>Про нас</CardTitle>
+              <CardDescription>
+                Редагування контенту сторінки "Про нас"
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/admin/about">
                 <Button className="w-full">Управління</Button>
               </Link>
             </CardContent>
