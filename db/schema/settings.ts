@@ -7,6 +7,6 @@ export const settings = sqliteTable('settings', {
   address: text('address').notNull().default('м. Олександрія, Кіровоградська область'),
   phone: text('phone').notNull().default('+38 (012) 345-67-89'),
   email: text('email').notNull().default('info@lit.kr.ua'),
-  logoType: text('logo_type').notNull().default('new'), // 'new' for LIT.png, 'old' for LITold.png
+  logoType: text('logo_type').$type<'new' | 'old'>().notNull().default('new'),
   updatedAt: text('updated_at').$defaultFn(() => new Date().toISOString()),
 });
