@@ -24,6 +24,7 @@ export async function getSettings() {
         address: 'м. Олександрія, Кіровоградська область',
         phone: '+38 (012) 345-67-89',
         email: 'info@lit.kr.ua',
+        logoType: 'new' as const,
         updatedAt: new Date().toISOString(),
       };
 
