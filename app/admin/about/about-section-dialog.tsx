@@ -16,7 +16,7 @@ import { Loader2 } from 'lucide-react';
 
 const sectionSchema = z.object({
   title: z.string().min(1, 'Заголовок обов\'язковий'),
-  content: z.string().min(1, 'Контент обов\'язковий'),
+  content: z.string().optional(),
   sectionType: z.enum(['main', 'mission', 'values', 'history', 'achievements']),
   order: z.number().int().min(0),
 });
@@ -26,9 +26,10 @@ type SectionFormData = z.infer<typeof sectionSchema>;
 interface AboutSection {
   id: string;
   title: string;
-  content: string;
+  content: string | null;
   sectionType: string;
   order: number;
+  isPublished: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -66,7 +67,7 @@ export function AboutSectionDialog({ open, onOpenChange, section, onSuccess }: A
     if (section) {
       reset({
         title: section.title,
-        content: section.content,
+        content: section.content || '',
         sectionType: section.sectionType as any,
         order: section.order,
       });

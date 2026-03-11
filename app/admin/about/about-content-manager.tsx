@@ -12,9 +12,10 @@ import { toast } from 'sonner';
 interface AboutSection {
   id: string;
   title: string;
-  content: string;
+  content: string | null;
   sectionType: string;
   order: number;
+  isPublished: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
