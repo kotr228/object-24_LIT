@@ -8,5 +8,5 @@ export const settings = sqliteTable('settings', {
   phone: text('phone').notNull().default('+38 (012) 345-67-89'),
   email: text('email').notNull().default('info@lit.kr.ua'),
   logoType: text('logo_type').$type<'new' | 'old'>().notNull().default('new'),
-  updatedAt: text('updated_at').$defaultFn(() => new Date().toISOString()),
+  updatedAt: text('updated_at').notNull().$defaultFn(() => new Date().toISOString()),
 });
